@@ -1,4 +1,7 @@
-name: Android APK Oluştur
+name: Android APK Oluştur ve Canlı Yayınla
+
+permissions:
+  contents: write
 
 on:
   workflow_dispatch:
@@ -23,15 +26,29 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
-      - name: Klasör Düzenle ve Derle
+      - name: Klasör Düzenle ve Web Sürümünü Derle
         run: |
           mkdir -p src
-          cp -n *.tsx *.ts src/ 2>/dev/null || true
-          cp -n *.css src/ 2>/dev/null || true
+          for f in *.tsx *.ts *.css; do
+            if [ -f "$f" ] && [ "$f" != "vite.config.ts" ] && [ "$f" != "capacitor.config.ts" ] && [ "$f" != "server.ts" ]; then
+              cp -f "$f" src/
+            fi
+          done
           npm install
           npm run build
+          node -e "require('fs').writeFileSync('dist/build-meta.json', JSON.stringify({ buildTime: Date.now() }))"
+
+      - name: Canlı Güncelleme Sunucusunu Yayınla (GitHub Pages OTA)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+
+      - name: Android Projesi Hazırla
+        run: |
           npx cap add android || true
           npx cap sync android
+          printf '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="colorPrimary">#090d16</color>\n    <color name="colorPrimaryDark">#090d16</color>\n    <color name="colorAccent">#0ea5e9</color>\n</resources>\n' > android/app/src/main/res/values/colors.xml
 
       - name: APK Derle
         working-directory: android
@@ -39,8 +56,13 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: APK Kaydet
+      - name: Sürümlü APK Kaydet (v1.1)
+        run: |
+          mkdir -p output-apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk output-apk/santralbayi-v1.1.apk
+
+      - name: APK İndirilebilir Yap
         uses: actions/upload-artifact@v4
         with:
-          name: santralbayi-v1.0-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: santralbayi-v1.1-apk
+          path: output-apk/santralbayi-v1.1.apk
