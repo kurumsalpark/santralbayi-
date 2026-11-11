@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Kodları Çek
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Node.js Kur
         uses: actions/setup-node@v4
@@ -31,7 +33,9 @@ jobs:
           mkdir -p src
           for f in *.tsx *.ts *.css; do
             if [ -f "$f" ] && [ "$f" != "vite.config.ts" ] && [ "$f" != "capacitor.config.ts" ] && [ "$f" != "server.ts" ]; then
-              cp -f "$f" src/
+              if [ ! -f "src/$f" ] || git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -qx "$f"; then
+                cp -f "$f" src/
+              fi
             fi
           done
           npm install
@@ -44,11 +48,12 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
 
-      - name: Android Projesi Hazırla
+      - name: Android Projesi Hazırla (Koyu Tema & Beyaz Saat/Tuş İkonları)
         run: |
           npx cap add android || true
           npx cap sync android
-          printf '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="colorPrimary">#090d16</color>\n    <color name="colorPrimaryDark">#090d16</color>\n    <color name="colorAccent">#0ea5e9</color>\n</resources>\n' > android/app/src/main/res/values/colors.xml
+          printf '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="colorPrimary">#0f172a</color>\n    <color name="colorPrimaryDark">#0f172a</color>\n    <color name="colorAccent">#0ea5e9</color>\n</resources>\n' > android/app/src/main/res/values/colors.xml
+          printf '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">\n        <item name="colorPrimary">@color/colorPrimary</item>\n        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>\n        <item name="colorAccent">@color/colorAccent</item>\n        <item name="android:statusBarColor">#0f172a</item>\n        <item name="android:navigationBarColor">#0f172a</item>\n        <item name="android:windowBackground">#0f172a</item>\n    </style>\n    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">\n        <item name="windowActionBar">false</item>\n        <item name="windowNoTitle">true</item>\n        <item name="android:background">@null</item>\n        <item name="android:statusBarColor">#0f172a</item>\n        <item name="android:navigationBarColor">#0f172a</item>\n        <item name="android:windowBackground">#0f172a</item>\n    </style>\n    <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">\n        <item name="android:background">@drawable/splash</item>\n    </style>\n</resources>\n' > android/app/src/main/res/values/styles.xml
 
       - name: APK Derle
         working-directory: android
@@ -56,13 +61,13 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: Sürümlü APK Kaydet (v1.1)
+      - name: Sürümlü APK Kaydet (v1.2)
         run: |
           mkdir -p output-apk
-          cp android/app/build/outputs/apk/debug/app-debug.apk output-apk/santralbayi-v1.1.apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk output-apk/santralbayi-v1.2.apk
 
       - name: APK İndirilebilir Yap
         uses: actions/upload-artifact@v4
         with:
-          name: santralbayi-v1.1-apk
-          path: output-apk/santralbayi-v1.1.apk
+          name: santralbayi-v1.2-apk
+          path: output-apk/santralbayi-v1.2.apk
