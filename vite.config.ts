@@ -1,13 +1,17 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 
-export default defineConfig(() => {
+export default defineConfig(({ command }) => {
   return {
+    base: command === 'build' ? './' : '/',
+    define: {
+      __APP_BUILD_TIMESTAMP__: JSON.stringify(Date.now()),
+    },
     plugins: [
-      react(), 
-      tailwindcss()
+      react(),
+      tailwindcss(),
     ],
     resolve: {
       alias: {
