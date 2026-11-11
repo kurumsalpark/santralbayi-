@@ -112,6 +112,7 @@ import { DraggableDock } from './DraggableDock';
 import { SendDocumentScreen } from './SendDocumentScreen';
 import { TurkeyLiveStatsAndMapView, AnalyticsRoleScope } from './TurkeyLiveStatsAndMapView';
 import { AdminGlobalDirectoryModal } from './AdminGlobalDirectoryModal';
+import { NETLEN_AVATAR_DATA_URL } from './netlenAvatar';
 // import { PWAAutoPrompt } from './PWAAutoPrompt';
 
 const SECTOR_EXAMPLES: Record<string, string[]> = {
@@ -11678,10 +11679,10 @@ Asistan: "Tüm parça ve periyodik servis detay notları sistemimize işlenmişt
 
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-slate-100 flex flex-col items-center justify-center p-0 md:p-6 overflow-x-hidden font-sans">
+    <div className="w-full h-full bg-[#0f172a] text-slate-100 flex flex-col items-center justify-center p-0 md:p-6 overflow-hidden font-sans app-safe-shell">
       
-      {/* PHYSICAL SMARTPHONE SHELL (Mobilde tam ekran, masaüstünde telefon kasası) */}
-      <div className="relative w-full h-[100dvh] md:w-[380px] md:h-[780px] bg-slate-950 md:rounded-[48px] p-0 md:p-3 shadow-2xl md:border-[7px] md:border-slate-800 md:ring-4 md:ring-slate-900 overflow-hidden flex flex-col">
+      {/* PHYSICAL SMARTPHONE SHELL (Mobilde güvenli tam ekran, masaüstünde telefon kasası) */}
+      <div className="relative w-full h-full md:w-[380px] md:h-[780px] bg-[#0f172a] md:bg-slate-950 md:rounded-[48px] p-0 md:p-3 shadow-none md:shadow-2xl md:border-[7px] md:border-slate-800 md:ring-4 md:ring-slate-900 overflow-hidden flex flex-col">
           
           {/* PHONE PILL/CAMERA NOTCH (Masaüstü görünümünde gösterilir) */}
           <div className="hidden md:flex absolute top-2 left-1/2 -translate-x-1/2 w-28 h-6 bg-slate-950 rounded-full z-50 items-center justify-center gap-2">
@@ -11698,7 +11699,7 @@ Asistan: "Tüm parça ve periyodik servis detay notları sistemimize işlenmişt
               onTouchEnd={handlePanelTouchEnd}
               onMouseDown={handlePanelMouseDown}
               onMouseUp={handlePanelMouseUp}
-              className="flex-1 min-h-0 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none relative p-3 sm:p-4 flex flex-col"
+              className="flex-1 min-h-0 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none relative px-3 pt-1.5 pb-2 sm:p-4 flex flex-col"
             >
               
               {/* SHARE TOAST NOTIFICATION (EKRANDA ALTTA SABİT, TAMAM VE WHATSAPP BUTONLU) */}
@@ -12861,7 +12862,7 @@ Asistan: "Tüm parça ve periyodik servis detay notları sistemimize işlenmişt
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, transition: { duration: 0 } }}
                     transition={{ duration: 0 }}
-                    className="flex-1 flex flex-col justify-between pt-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none pr-0.5"
+                    className="flex-1 flex flex-col justify-between pt-1 md:pt-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none pr-0.5"
                   >
                     {/* App Title Header */}
                     <div className="flex flex-col items-center mb-2.5 relative">
@@ -19071,7 +19072,7 @@ Asistan: "Tüm parça ve periyodik servis detay notları sistemimize işlenmişt
                     {/* APP CONTENT: TÜRKİYE İLLER BAYİ PORTALI */}
                     {/* APP CONTENT: TÜRKİYE İLLER BAYİ PORTALI */}
                     {(currentApp === 'panels' && effectiveAdminPanelsTab === 'iller_bayi') && (
-                      <div className="flex-1 flex flex-col justify-between pt-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none pr-0.5">
+                      <div className="flex-1 flex flex-col justify-between pt-1 md:pt-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none pr-0.5">
                         {/* App Title Header */}
                         <div className="flex flex-col items-center mb-2.5 relative">
                           {renderTopThreeDotsMenu('Türkiye İller Portalı')}
@@ -19375,7 +19376,7 @@ Asistan: "Tüm parça ve periyodik servis detay notları sistemimize işlenmişt
 
                     {/* APP CONTENT: İL BAYİ PORTALI */}
                     {(currentApp === 'dealer_screen_portal' || (currentApp === 'panels' && effectiveAdminPanelsTab === 'il_bayi')) && (
-                      <div className="flex-1 flex flex-col justify-between pt-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none pr-0.5">
+                      <div className="flex-1 flex flex-col justify-between pt-1 md:pt-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none pr-0.5">
                         {/* App Title Header (Yönetici Paneli Kurumsal Logo 1:1) */}
                         <div className="flex flex-col items-center mb-2.5 relative">
                           {renderTopThreeDotsMenu('İl Bayi Portalı')}
@@ -19711,7 +19712,7 @@ Asistan: "Tüm parça ve periyodik servis detay notları sistemimize işlenmişt
 
                     {/* APP CONTENT: İLÇE BAYİ PORTALI */}
                     {(currentApp === 'district_dealer_portal' || (currentApp === 'panels' && effectiveAdminPanelsTab === 'ilce_bayi')) && (
-                      <div className="flex-1 flex flex-col justify-between pt-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none pr-0.5">
+                      <div className="flex-1 flex flex-col justify-between pt-1 md:pt-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none pr-0.5">
                         {/* App Title Header (Yönetici Paneli Kurumsal Logo 1:1) */}
                         <div className="flex flex-col items-center mb-2.5 relative">
                           {renderTopThreeDotsMenu('İlçe Bayi Portalı')}
@@ -20015,7 +20016,7 @@ Asistan: "Tüm parça ve periyodik servis detay notları sistemimize işlenmişt
 
                     {/* APP CONTENT: ESNAF / ABONE PANELİ */}
                     {(currentApp === 'subscriber_portal' || (currentApp === 'panels' && effectiveAdminPanelsTab === 'esnaf')) && (
-                      <div className="flex-1 flex flex-col justify-between pt-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none pr-0.5">
+                      <div className="flex-1 flex flex-col justify-between pt-1 md:pt-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scrollbar-none pr-0.5">
                         {/* App Title Header (Yönetici Paneli Kurumsal Logo 1:1) */}
                         <div className="flex flex-col items-center mb-2.5 relative">
                           {renderTopThreeDotsMenu('Esnaf Santral Paneli')}
@@ -30069,7 +30070,7 @@ Bu resmi mali döküm raporu Santral Bayi muhasebe sistemi tarafından otomatik 
                           personeller: ["Sorumlu Terzi Ustası", "Tadilat Uzmanı"]
                         },
                         gelinlik: {
-                          label: "👗 Gelinlik, Abiye & Özel Dikim",
+                          label: "������ Gelinlik, Abiye & Özel Dikim",
                           hizmetEtiket: "Moda / Prova Türü *",
                           hizmetler: ["Özel Gelinlik Prova Seansı (60 dk)", "Abiye & Bindallı Ölçü Alma (45 dk)", "Gelinlik Duvak & Aksesuar Tasarımı (30 dk)", "Gelinlik Daraltma & Tadilat Provası (45 dk)"],
                           kaynakEtiket: "Moda Tasarımcısı / Terzi *",
@@ -32510,7 +32511,7 @@ Asistan: "${apt.time} için randevunuz takvime kaydedildi."`
                     >
                       <div className="w-12 h-12 rounded-full bg-slate-950 p-1 flex items-center justify-center overflow-hidden border border-sky-400/60 group-hover:border-sky-300">
                         <img
-                          src="/assets/aistudio/image_d02e1ec5.png"
+                          src={NETLEN_AVATAR_DATA_URL}
                           alt="Netlen Destek Robotu"
                           className="w-full h-full object-contain filter drop-shadow"
                         />
@@ -32826,7 +32827,7 @@ Asistan: "${apt.time} için randevunuz takvime kaydedildi."`
                         <div className="flex items-center gap-2.5 min-w-0">
                           <div className="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-400/50 p-1 flex items-center justify-center shrink-0">
                             <img
-                              src="/assets/aistudio/image_d02e1ec5.png"
+                              src={NETLEN_AVATAR_DATA_URL}
                               alt="Netlen Asistan"
                               className="w-full h-full object-contain"
                             />
