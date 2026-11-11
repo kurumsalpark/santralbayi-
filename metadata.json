@@ -1,0 +1,8 @@
+{
+  "name": "Remix SantralBayi Akıllı Çağrı",
+  "description": "Yapay Zeka Destekli Akıllı Çağrı ve Bayi Yönetim Sistemi",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
