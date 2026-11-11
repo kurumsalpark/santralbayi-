@@ -15,7 +15,7 @@ jobs:
       - name: Node.js Kur
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Java Kur
         uses: actions/setup-java@v4
@@ -26,7 +26,6 @@ jobs:
       - name: Klasör Düzenle ve Derle
         run: |
           mkdir -p src
-          # Ana dizine gelen dosyaları src klasörüne toparla
           cp -n *.tsx *.ts src/ 2>/dev/null || true
           cp -n *.css src/ 2>/dev/null || true
           npm install
