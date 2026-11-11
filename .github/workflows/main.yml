@@ -23,8 +23,12 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Paketleri Yükle ve Derle
+      - name: Klasör Düzenle ve Derle
         run: |
+          mkdir -p src
+          # Ana dizine gelen dosyaları src klasörüne toparla
+          cp -n *.tsx *.ts src/ 2>/dev/null || true
+          cp -n *.css src/ 2>/dev/null || true
           npm install
           npm run build
           npx cap add android || true
